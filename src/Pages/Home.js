@@ -1,14 +1,7 @@
 import React from 'react';
 import { Box, Typography, Card, CardMedia, Grid, Button } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
 
 const Home = ({onBookAppointmentClick}) => {
-
-  // const navigate= useNavigate();
-
-  // const handleBookAppointment= () => {
-  //   navigate('/')
-  // }
 
   return (
     <Box

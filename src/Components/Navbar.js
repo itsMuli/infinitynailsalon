@@ -10,7 +10,6 @@ import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
 import Drawer from '@mui/material/Drawer';
 import MenuItem from '@mui/material/MenuItem';
-import InputBase from '@mui/material/InputBase';
 import { PhoneInTalk } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 
@@ -25,17 +24,17 @@ function ResponsiveAppBar() {
   };
 
   const handlePageNavigation = (page) => {
-    if (page === 'Book Appointment') {
+    if (page === 'Home') {
+      navigate('/');
+    } else if (page === 'Book Appointment') {
       navigate('/book-appointment');
-      handleDrawerToggle()
     } else if (page === 'My Bookings') {
       navigate('/my-bookings');
-      handleDrawerToggle()
     } else {
       navigate(`/${page.toLowerCase()}`);
-      handleDrawerToggle()
     }
-  }
+    handleDrawerToggle(); // Close the drawer after navigation
+  };
 
   return (
     <AppBar position="fixed" sx={{ backgroundColor: 'white', color: 'slategray' }}>
@@ -84,38 +83,31 @@ function ResponsiveAppBar() {
                 <IconButton onClick={handleDrawerToggle} sx={{ alignSelf: 'flex-end' }}>
                   <CloseIcon />
                 </IconButton>
-                <MenuItem onClick={() => handlePageNavigation('/')}>
+                <MenuItem onClick={() => handlePageNavigation('Home')}>
                   <Typography textAlign="center">Home</Typography>
                 </MenuItem>
                 {pages.map((page) => (
-                  <MenuItem key={page} onClick={handleDrawerToggle}>
+                  <MenuItem key={page} onClick={() => handlePageNavigation(page)}>
                     <Typography textAlign="center">{page}</Typography>
                   </MenuItem>
                 ))}
-                <Box sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                  <Button
-                    onClick={() => handlePageNavigation("Book Appointment")}
-                    sx={{
-                      my: 2, color: 'white', backgroundColor: '#F56F5E',
-                      '&:hover': {
-                        backgroundColor: '#e06758',
-                      },
-                      width: '100%'
-                    }}
-                  >
-                    Book Appointment
-                  </Button>
-                  <Box sx={{ display: 'flex', alignItems: 'center', my: 2 }}>
-                    <IconButton><PhoneInTalk /></IconButton>
-                    <Typography variant="body2" sx={{ ml: 1 }}>
-                      +254 (758) 628-253
-                    </Typography>
-                  </Box>
-                  <InputBase
-                    placeholder="Search…"
-                    inputProps={{ 'aria-label': 'search' }}
-                    sx={{ color: 'inherit', border: '1px solid slategray', borderRadius: 1, pl: 1, width: '100%' }}
-                  />
+                <Button
+                  onClick={() => handlePageNavigation('Book Appointment')}
+                  sx={{
+                    my: 2, color: 'white', backgroundColor: '#F56F5E',
+                    '&:hover': {
+                      backgroundColor: '#e06758',
+                    },
+                    width: '100%'
+                  }}
+                >
+                  Book Appointment
+                </Button>
+                <Box sx={{ display: 'flex', alignItems: 'center', my: 2 }}>
+                  <IconButton><PhoneInTalk /></IconButton>
+                  <Typography variant="body2" sx={{ ml: 1 }}>
+                    +254 (758) 628-253
+                  </Typography>
                 </Box>
               </Box>
             </Drawer>
@@ -141,6 +133,19 @@ function ResponsiveAppBar() {
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+            <Button
+              onClick={() => handlePageNavigation('Home')}
+              sx={{
+                my: 2, color: 'slategray', display: 'block',
+                '&:hover': {
+                  backgroundColor: '#F56F5E',
+                  color: 'white',
+                },
+                mx: 1
+              }}
+            >
+              Home
+            </Button>
             {pages.map((page) => (
               <Button
                 key={page}
@@ -160,17 +165,18 @@ function ResponsiveAppBar() {
           </Box>
 
           <Box sx={{ display: { xs: 'none', md: 'flex' }, flexGrow: 0, alignItems: 'center' }}>
-          <MenuItem onClick={() => handlePageNavigation('My Bookings')} sx={{
-                  my: 2, color: 'slategray', display: 'block',
-                  '&:hover': {
-                    backgroundColor: '#F56F5E',
-                    color: 'white',
-                  },
-                  mx: 1
-                }}>
+            <MenuItem onClick={() => handlePageNavigation('My Bookings')} sx={{
+              my: 2, color: 'slategray', display: 'block',
+              '&:hover': {
+                backgroundColor: '#F56F5E',
+                color: 'white',
+              },
+              mx: 1
+            }}>
               <Typography textAlign="center">My Bookings</Typography>
             </MenuItem>
           </Box>
+
           <Box>
             <IconButton sx={{ display: { xs: 'none', md: 'flex' } }}><PhoneInTalk /></IconButton>
           </Box>
@@ -182,19 +188,19 @@ function ResponsiveAppBar() {
               +254 (758) 628-253
             </Typography>
           </Box>
-
           <Button
-            onClick={() => handlePageNavigation("Book Appointment")}
-            sx={{
-              my: 2, color: 'white', backgroundColor: '#F56F5E', display: { xs: 'none', md: 'block' },
-              '&:hover': {
-                backgroundColor: '#e06758',
-              },
-              mr: 2
-            }}
-          >
-            Book Appointment
-          </Button>
+              onClick={() => handlePageNavigation('Book Appointment')}
+              sx={{
+                display: { xs: 'none', md: 'block' },
+                my: 2, color: 'white', backgroundColor: '#F56F5E',
+                '&:hover': {
+                  backgroundColor: '#e06758',
+                },
+                mr: 2
+              }}
+            >
+              Book Appointment
+            </Button>
         </Toolbar>
       </Container>
     </AppBar>
