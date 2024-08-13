@@ -33,7 +33,7 @@ function ResponsiveAppBar() {
     } else {
       navigate(`/${page.toLowerCase()}`);
     }
-    handleDrawerToggle(); // Close the drawer after navigation
+    handleDrawerToggle();
   };
 
   return (

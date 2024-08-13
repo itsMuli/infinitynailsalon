@@ -1,8 +1,7 @@
 import React from 'react';
-import { Box, Typography, Card, CardMedia, Grid, Button } from '@mui/material';
+import { Box, Typography, Grid, Button } from '@mui/material';
 
-const Home = ({onBookAppointmentClick}) => {
-
+const Home = ({ onBookAppointmentClick }) => {
   return (
     <Box
       sx={{
@@ -10,49 +9,66 @@ const Home = ({onBookAppointmentClick}) => {
         backgroundColor: 'rgba(247, 230, 228)',
         minHeight: '66vh',
         display: 'flex',
-        justifyContent: 'left',
+        justifyContent: 'center',
         alignItems: 'center',
-        padding: '10px',
-        paddingLeft: '100px'
+        paddingLeft: { xs: '10px', md: '100px' }, // Adjusted padding for better alignment
+        paddingRight: { xs: '10px', md: '100px' },
+        paddingBottom: '10px',
       }}
     >
-      <Grid container spacing={2} alignItems="center">
-        <Grid item xs={12} md={6}>
-          <Card
+      <Grid container spacing={4} alignItems="center"> {/* Increased spacing */}
+        <Grid item xs={12} md={5} sx={{ display: 'flex', justifyContent: { xs: 'center', md: 'flex-start' } }}>
+          <Box
             sx={{
-              maxWidth: 600,
-              width: '100%',
-              position: 'relative',
+              backgroundColor: 'rgba(247, 230, 228)',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              ml: { md: '-50px' }, // Push image to the left on medium and larger screens
             }}
           >
-            <CardMedia
-              component="img"
+            <img
+              src="/home-removebg-preview.png"
               alt="Background"
-              height="700"
-              image="/overlayHome.png"
+              style={{
+                width: '434.75px',
+                height: '500.11px',
+              }}
             />
-          </Card>
+          </Box>
         </Grid>
-        <Grid item xs={12} md={6}>
-          <Box sx={{ paddingLeft: '20px' }}>
+        <Grid item xs={12} md={7}>
+          <Box sx={{ paddingLeft: { xs: '10px', md: '20px' }, textAlign: { xs: 'center', md: 'left' } }}>
             <Typography
               variant="h2"
               gutterBottom
-              sx={{ fontFamily: 'Montserrat, sans-serif', fontSize: '45px', fontWeight: 'bold' }}
+              sx={{ 
+                fontFamily: 'Montserrat, sans-serif', 
+                fontSize: { xs: '30px', sm: '35px', md: '45px' }, 
+                fontWeight: 'bold' 
+              }}
             >
               Welcome to Infinity Nail Salon
             </Typography>
             <Typography
               variant="body1"
               component="p"
-              sx={{ fontFamily: 'Lato, sans-serif', fontSize: '15px' }}
+              sx={{ 
+                fontFamily: 'Lato, sans-serif', 
+                fontSize: { xs: '14px', md: '15px' },
+                marginBottom: '15px',
+              }}
             >
               At Infinity Nail Salon, we offer a wide range of services to keep your nails looking their best. Whether you're looking for a quick polish change or a full set of acrylics, our experienced technicians are here to help.
             </Typography>
             <Typography
               variant="body1"
               component="p"
-              sx={{ marginTop: '20px', fontFamily: 'Lato, sans-serif', fontSize: '15px' }}
+              sx={{ 
+                fontFamily: 'Lato, sans-serif', 
+                fontSize: { xs: '14px', md: '15px' },
+                marginTop: '20px',
+              }}
             >
               Book your appointment today and experience the best nail care in town.
             </Typography>
@@ -66,11 +82,11 @@ const Home = ({onBookAppointmentClick}) => {
                 color: 'white',
                 backgroundColor: '#F56F5E',
                 display: 'block',
-                width: '100%', 
+                width: { xs: '100%', sm: '80%', md: '60%' }, // Responsive button width
+                mx: { xs: 'auto', md: 0 }, // Center on small screens
                 '&:hover': {
                   backgroundColor: '#e06758',
                 },
-                mr: 2
               }}
             >
               Book Appointment

@@ -1,3 +1,4 @@
+import './App.css'
 import React, { useRef } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './Components/Navbar';
@@ -7,6 +8,7 @@ import OurServices from './Pages/Services';
 import MyBookings from './Pages/MyBookings';
 import { Box } from '@mui/material';
 import RegisterForm from './Pages/Register';
+import GlobalStyles, {Wrapper} from './GlobalStyles';
 
 const App = () => {
   const bookAppointmentRef = useRef(null);
@@ -18,7 +20,9 @@ const App = () => {
   return (
     <Router>
       <Navbar />
-      <Box sx={{ pt: '64px' }}>
+      <Box sx={{ pt: '64px', alignContent:'grid' }}>
+        <GlobalStyles/>
+        <Wrapper>
         <Routes>
           <Route 
             path="/" 
@@ -29,6 +33,7 @@ const App = () => {
           <Route path='/register' element={<RegisterForm/>} />
           <Route path='/services' element={<OurServices/>} />
         </Routes>
+        </Wrapper>
       </Box>
     </Router>
   );
