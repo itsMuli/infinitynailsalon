@@ -20,11 +20,20 @@ const OurServices = () => {
   return (
     <Box
       sx={{
+        position: 'center',
         backgroundColor: '#FFFFFF',
         minHeight: '60vh',
-        padding: '20px',
+        paddingLeft: '10px',
+        paddingRight: '10px',
+        paddingBottom: '10px',
       }}
     >
+      <Box
+        sx={{
+          maxWidth: '1200px', // Max content width for centering
+          margin: '0 auto', // Center the content horizontally
+        }}
+      >
       <Typography
         variant="h4"
         component="h1"
@@ -52,6 +61,7 @@ const OurServices = () => {
           </Grid>
         ))}
       </Grid>
+      </Box>
     </Box>
   );
 };

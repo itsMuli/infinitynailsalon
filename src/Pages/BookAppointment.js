@@ -4,19 +4,10 @@ import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import SummarizeIcon from '@mui/icons-material/Summarize';
 import AssignmentIcon from '@mui/icons-material/Assignment';
-import DnsIcon from '@mui/icons-material/Dns';
+import DnsRoundedIcon from '@mui/icons-material/DnsRounded';
 import BookServices from './BookServices';
 
 const servicesData = {
-  'ALL': [
-    { name: 'Acrylic', duration: '30 m', price: '$30.00' },
-    { name: 'Gel', duration: '30 m', price: '$25.00' },
-    { name: 'Manicure', duration: '30 m', price: '$20.00' },
-    { name: 'Pedicure', duration: '30 m', price: '$18.00' },
-    { name: 'Nail art', duration: '1 h', price: '$35.00' },
-    { name: 'House Call', duration: '1 h', price: '$35.00' },
-    { name: 'General', duration: '1 h', price: '$35.00' },
-  ],
   'General': [
     { name: 'Nail Care', duration: '30 m', price: '$30.00' },
   ],
@@ -74,12 +65,17 @@ const BookAppointment = () => {
         position: 'relative',
         backgroundColor: 'rgba(246, 243, 245)',
         minHeight: '60vh',
-        display: 'flex',
-        flexDirection: 'column',
+        display: 'block',
         alignItems: 'center',
         padding: { xs: '10px', md: '20px' },
       }}
     >
+      <Box
+        sx={{
+          maxWidth: '1200px',
+          margin: '0 auto',
+        }}
+      >
       <Typography
         variant="h4"
         component="h1"
@@ -95,26 +91,54 @@ const BookAppointment = () => {
         Book Your Appointment
       </Typography>
       <Grid container spacing={2}>
-        <Grid item xs={12} md={4}>
+        <Grid item xs={12} md={3}>
           <Card sx={{ mb: 2 }}>
             <CardContent sx={{ padding: { xs: '10px', md: '16px' } }}>
-              <List>
-                {['Service', 'Date & Time', 'Cart Items', 'Fill out your details', 'Summary'].map((item) => (
+              <List
+                sx={{
+                  display: { xs: 'flex', md: 'block' },
+                  flexDirection: { xs: 'row', md: 'column' },
+                  justifyContent: { xs: 'space-between', md: 'initial' },
+                  overflowX: { xs: 'auto', md: 'hidden' },
+                  padding: 0,
+                }}
+              >
+                {['Service', 'Date & Time', 'Cart Items', 'Fill out your details', 'Summary'].map((item, index) => (
                   <ListItem
                     button
                     key={item}
                     onClick={() => handleItemClick(item)}
                     sx={{
                       padding: { xs: '8px', md: '10px' },
+                      display: 'flex',
+                      alignItems: 'center',
+                      flexDirection: { xs: 'row', md: 'column' },
+                      width: { xs: 'auto', md: '100%' },
+                      border: selectedItem === item ? '2px solid #e06758' : 'none',
+                      borderRadius: '4px',
+                      mb: { xs: '4px', md: '8px' },
+                      position: 'relative',
                     }}
                   >
+                    <Typography
+                      variant="body1"
+                      sx={{
+                        fontSize: { xs: '14px', md: '16px' },
+                        fontWeight: 'bold',
+                        mr: 1,
+                        color: selectedItem === item ? '#e06758' : 'inherit',
+                        display: { xs: 'block', md: 'none' },
+                      }}
+                    >
+                      {index + 1 < 10 ? `0${index + 1}` : index + 1}
+                    </Typography>
                     <ListItemIcon
                       sx={{
-                        color: selectedItem === item ? 'rgba(204, 128, 118)' : 'inherit',
+                        color: selectedItem === item ? '#e06758' : 'inherit',
                         minWidth: { xs: '30px', md: '40px' },
                       }}
                     >
-                      {item === 'Service' && <DnsIcon />}
+                      {item === 'Service' && <DnsRoundedIcon />}
                       {item === 'Date & Time' && <CalendarMonthIcon />}
                       {item === 'Cart Items' && <ShoppingCartIcon />}
                       {item === 'Fill out your details' && <AssignmentIcon />}
@@ -123,8 +147,9 @@ const BookAppointment = () => {
                     <ListItemText
                       primary={item}
                       sx={{
-                        color: selectedItem === item ? 'rgba(204, 128, 118)' : 'inherit',
+                        color: selectedItem === item ? '#e06758' : 'inherit',
                         fontSize: { xs: '14px', md: '16px' },
+                        display: { xs: 'none', md: 'block' },
                       }}
                     />
                   </ListItem>
@@ -133,14 +158,15 @@ const BookAppointment = () => {
             </CardContent>
           </Card>
         </Grid>
-        <Grid item xs={12} md={8}>
+        <Grid item xs={12} md={9}>
           <Card sx={{ mb: 2 }}>
-            <CardContent sx={{ padding: { xs: '10px', md: '16px' }, minHeight: '450px' }}>
+            <CardContent sx={{ padding: { xs: '10px', md: '16px' }, width:'90%', minHeight: '600px' }}>
               {renderCardContent()}
             </CardContent>
           </Card>
         </Grid>
       </Grid>
+      </Box>
     </Box>
   );
 };
