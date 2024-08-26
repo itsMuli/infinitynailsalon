@@ -1,12 +1,12 @@
 import './App.css'
 import React, { useRef } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { Box } from '@mui/material';
 import Navbar from './Components/Navbar';
 import Home from './Pages/Home';
 import BookAppointment from './Pages/BookAppointment';
 import OurServices from './Pages/Services';
 import MyBookings from './Pages/MyBookings';
-import { Box } from '@mui/material';
 import RegisterForm from './Pages/Register';
 
 const App = () => {

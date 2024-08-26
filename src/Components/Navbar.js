@@ -105,7 +105,7 @@ function ResponsiveAppBar() {
                 </Button>
                 <Box sx={{ display: 'flex', alignItems: 'center', my: 2 }}>
                   <IconButton><PhoneInTalk /></IconButton>
-                  <Typography variant="body2" sx={{ ml: 1 }}>
+                  <Typography variant="body2" sx={{ ml: 1,display: { md: 'none'} }}>
                     +254 (758) 628-253
                   </Typography>
                 </Box>

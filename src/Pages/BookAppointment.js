@@ -6,32 +6,36 @@ import SummarizeIcon from '@mui/icons-material/Summarize';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import DnsRoundedIcon from '@mui/icons-material/DnsRounded';
 import BookServices from './BookServices';
+import DateAndTimePicker from './Date&Time';
+import CartItems from './CartItems';
+import FillOutDetails from './FillOutDetails';
+import BookingSummary from './BookingSummary';
 
 const servicesData = {
   'General': [
-    { name: 'Nail Care', duration: '30 m', price: '$30.00' },
+    { name: 'Nail Care', duration: '30 m', price: 'Kshs 3000.00' },
   ],
   'Gel': [
-    { name: 'Plain Gel', duration: '1 h', price: '$35.00' },
-    { name: 'Tips & Gel', duration: '1 h', price: '$35.00' },
+    { name: 'Plain Gel', duration: '1 h', price: 'Kshs 350.00' },
+    { name: 'Tips & Gel', duration: '1 h', price: 'Kshs 350.00' },
   ],
   'Manicure': [
-    { name: 'Full Manicure', duration: '45 m', price: '$25.00' },
-    { name: 'Half Manicure', duration: '45 m', price: '$25.00' },
+    { name: 'Full Manicure', duration: '45 m', price: 'Kshs 250.00' },
+    { name: 'Half Manicure', duration: '45 m', price: 'Kshs 250.00' },
   ],
   'Pedicure': [
-    { name: 'Full Pedicure', duration: '1 h', price: '$50.00' },
-    { name: 'Half Pedicure', duration: '1 h', price: '$45.00' },
+    { name: 'Full Pedicure', duration: '1 h', price: 'Kshs 500.00' },
+    { name: 'Half Pedicure', duration: '1 h', price: 'Kshs 450.00' },
   ],
   'House Call': [
-    { name: 'Full Pedicure', duration: '1 h', price: '$50.00' },
-    { name: 'Half Pedicure', duration: '1 h', price: '$45.00' },
-    { name: 'Thick hair care', duration: '45 m', price: '$35.00' },
-    { name: 'Nail Care', duration: '30 m', price: '$30.00' },
-    { name: 'Plain Gel', duration: '1 h', price: '$35.00' },
-    { name: 'Tips & Gel', duration: '1 h', price: '$35.00' },
-    { name: 'Full Manicure', duration: '45 m', price: '$25.00' },
-    { name: 'Half Manicure', duration: '45 m', price: '$25.00' },
+    { name: 'Full Pedicure', duration: '1 h', price: 'Kshs 500.00' },
+    { name: 'Half Pedicure', duration: '1 h', price: 'Kshs 450.00' },
+    { name: 'Thick hair care', duration: '45 m', price: 'Kshs 350.00' },
+    { name: 'Nail Care', duration: '30 m', price: 'Kshs 300.00' },
+    { name: 'Plain Gel', duration: '1 h', price: 'Kshs 350.00' },
+    { name: 'Tips & Gel', duration: '1 h', price: 'Kshs 350.00' },
+    { name: 'Full Manicure', duration: '45 m', price: 'Kshs 250.00' },
+    { name: 'Half Manicure', duration: '45 m', price: 'Kshs 250.00' },
   ],
 };
 
@@ -42,20 +46,28 @@ const BookAppointment = () => {
     setSelectedItem(item);
   };
 
+  const handleNext = () => {
+    const items = ['Service', 'Date & Time', 'Cart Items', 'Fill out your details', 'Summary'];
+    const currentIndex = items.indexOf(selectedItem);
+    if (currentIndex < items.length - 1) {
+      setSelectedItem(items[currentIndex + 1]);
+    }
+  };
+
   const renderCardContent = () => {
     switch (selectedItem) {
       case 'Service':
-        return <BookServices servicesData={servicesData} />;
+        return <BookServices servicesData={servicesData} onNext={handleNext} />;
       case 'Date & Time':
-        return <Typography variant="h6">Date and time selection will be displayed here.</Typography>;
+        return <DateAndTimePicker onNext={handleNext}/>;
       case 'Cart Items':
-        return <Typography variant="h6">Cart items will be displayed here.</Typography>;
+        return <CartItems onNext={handleNext}/>;
       case 'Fill out your details':
-        return <Typography variant="h6">Form to fill out your details will be displayed here.</Typography>;
+        return <FillOutDetails onNext={handleNext}/>;
       case 'Summary':
-        return <Typography variant="h6">Summary will be displayed here.</Typography>;
+        return <BookingSummary/>;
       default:
-        return <BookServices servicesData={servicesData} />;
+        return <BookServices servicesData={servicesData} onNext={handleNext} />;
     }
   };
 

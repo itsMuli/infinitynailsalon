@@ -48,7 +48,7 @@ const OurServices = () => {
               <CardMedia
                 component="img"
                 alt={service.title}
-             ght   height="auto"
+                height="auto"
                 image={service.image}
                 sx={{ width: '100%', height: 'auto', aspectRatio: '5135 / 3423' }}
               />
