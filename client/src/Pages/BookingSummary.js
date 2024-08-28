@@ -1,10 +1,9 @@
 import React from 'react';
-import { Box, Typography, Card, CardContent, Divider } from '@mui/material';
+import { Box, Typography, CardContent, Divider } from '@mui/material';
 import summaryImage from '../images/summary.png'; // Replace with your image path
 
 const BookingSummary = ({ firstName, serviceName, date, time }) => {
   return (
-    <Card>
       <CardContent>
         <Box display="flex" flexDirection="column" alignItems="center" mb={2}>
           <img src={summaryImage} alt="Booking Summary" style={{ width: '130px', height: '130px' }} />
@@ -24,7 +23,6 @@ const BookingSummary = ({ firstName, serviceName, date, time }) => {
           <Typography variant="body2">{date} at {time}</Typography>
         </Box>
       </CardContent>
-    </Card>
   );
 };
 

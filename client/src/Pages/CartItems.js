@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Typography, Card, CardContent, Grid, Button, CardActions } from '@mui/material';
+import { Box, Typography, CardContent, Grid, Button, CardActions } from '@mui/material';
 
 const CartItems = ({ cartItems = [], onNext }) => {
   // Check if cartItems is an array and has items

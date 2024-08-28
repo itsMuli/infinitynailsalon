@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Box, Typography, Grid, Card, CardContent, CardActions, List, ListItem, ListItemText, Button, IconButton } from '@mui/material';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 
-const BookServices = ({ servicesData, onNext }) => {
+const BookServices = ({ servicesData = {}, onNext }) => {
   const [selectedCategory, setSelectedCategory] = useState('General');
   const [selectedService, setSelectedService] = useState(null);
 
@@ -22,6 +22,9 @@ const BookServices = ({ servicesData, onNext }) => {
       }
     }
   };
+
+  // Check if selectedCategory exists in servicesData
+  const services = servicesData[selectedCategory] || [];
 
   return (
     <Box sx={{ width: '100%' }}>
@@ -73,48 +76,54 @@ const BookServices = ({ servicesData, onNext }) => {
 
             <Grid item xs={12} md={9}>
               <Grid container spacing={2}>
-                {servicesData[selectedCategory].map((service, index) => (
-                  <Grid item xs={12} sm={6} md={4} key={index}>
-                    <Button
-                      onClick={() => handleServiceClick(service.name)}
-                      sx={{
-                        width: '100%',
-                        height: '100%',
-                        display: 'block',
-                        textAlign: 'left',
-                        padding: 0,
-                        borderRadius: '8px',
-                        overflow: 'hidden',
-                        textTransform: 'none',
-                        border: selectedService === service.name ? '1px solid #e06758' : '2px solid #eaedee',
-                        '&:hover': {
-                          backgroundColor: 'transparent',
-                        },
-                      }}
-                    >
-                      <Card
+                {services.length > 0 ? (
+                  services.map((service, index) => (
+                    <Grid item xs={12} sm={6} md={4} key={index}>
+                      <Button
+                        onClick={() => handleServiceClick(service.name)}
                         sx={{
+                          width: '100%',
                           height: '100%',
-                          display: 'flex',
-                          flexDirection: 'column',
-                          justifyContent: 'space-between',
+                          display: 'block',
+                          textAlign: 'left',
+                          padding: 0,
+                          borderRadius: '8px',
+                          overflow: 'hidden',
+                          textTransform: 'none',
+                          border: selectedService === service.name ? '1px solid #e06758' : '2px solid #eaedee',
+                          '&:hover': {
+                            backgroundColor: 'transparent',
+                          },
                         }}
                       >
-                        <CardContent>
-                          <Typography variant="h6" sx={{ fontWeight: 'bold', marginBottom: 1 }}>
-                            {service.name}
-                          </Typography>
-                          <Typography variant="body2" color="text.secondary" sx={{ marginBottom: 1 }}>
-                            Duration: {service.duration}
-                          </Typography>
-                          <Typography variant="body2" color="text.secondary">
-                            Price: <span style={{ color: '#e06758', fontWeight: 'bold' }}>{service.price}</span>
-                          </Typography>
-                        </CardContent>
-                      </Card>
-                    </Button>
-                  </Grid>
-                ))}
+                        <Card
+                          sx={{
+                            height: '100%',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            justifyContent: 'space-between',
+                          }}
+                        >
+                          <CardContent>
+                            <Typography variant="h6" sx={{ fontWeight: 'bold', marginBottom: 1 }}>
+                              {service.name}
+                            </Typography>
+                            <Typography variant="body2" color="text.secondary" sx={{ marginBottom: 1 }}>
+                              Duration: {service.duration}
+                            </Typography>
+                            <Typography variant="body2" color="text.secondary">
+                              Price: <span style={{ color: '#e06758', fontWeight: 'bold' }}>{service.price}</span>
+                            </Typography>
+                          </CardContent>
+                        </Card>
+                      </Button>
+                    </Grid>
+                  ))
+                ) : (
+                  <Typography variant="body2" color="text.secondary">
+                    No services available for this category.
+                  </Typography>
+                )}
               </Grid>
             </Grid>
           </Grid>

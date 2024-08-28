@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import { Box, Typography, Grid, Card, CardContent, List, ListItem, ListItemIcon, ListItemText } from '@mui/material';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
@@ -11,36 +12,24 @@ import CartItems from './CartItems';
 import FillOutDetails from './FillOutDetails';
 import BookingSummary from './BookingSummary';
 
-const servicesData = {
-  'General': [
-    { name: 'Nail Care', duration: '30 m', price: 'Kshs 3000.00' },
-  ],
-  'Gel': [
-    { name: 'Plain Gel', duration: '1 h', price: 'Kshs 350.00' },
-    { name: 'Tips & Gel', duration: '1 h', price: 'Kshs 350.00' },
-  ],
-  'Manicure': [
-    { name: 'Full Manicure', duration: '45 m', price: 'Kshs 250.00' },
-    { name: 'Half Manicure', duration: '45 m', price: 'Kshs 250.00' },
-  ],
-  'Pedicure': [
-    { name: 'Full Pedicure', duration: '1 h', price: 'Kshs 500.00' },
-    { name: 'Half Pedicure', duration: '1 h', price: 'Kshs 450.00' },
-  ],
-  'House Call': [
-    { name: 'Full Pedicure', duration: '1 h', price: 'Kshs 500.00' },
-    { name: 'Half Pedicure', duration: '1 h', price: 'Kshs 450.00' },
-    { name: 'Thick hair care', duration: '45 m', price: 'Kshs 350.00' },
-    { name: 'Nail Care', duration: '30 m', price: 'Kshs 300.00' },
-    { name: 'Plain Gel', duration: '1 h', price: 'Kshs 350.00' },
-    { name: 'Tips & Gel', duration: '1 h', price: 'Kshs 350.00' },
-    { name: 'Full Manicure', duration: '45 m', price: 'Kshs 250.00' },
-    { name: 'Half Manicure', duration: '45 m', price: 'Kshs 250.00' },
-  ],
-};
-
 const BookAppointment = () => {
   const [selectedItem, setSelectedItem] = useState('Service');
+  const [servicesData, setServicesData] = useState({});
+
+  useEffect(() => {
+    // Fetch the categories and services data from the backend
+    axios.get('http://localhost:8080/api/categories')
+      .then(response => {
+        const data = response.data.reduce((acc, category) => {
+          acc[category.name] = category.services;
+          return acc;
+        }, {});
+        setServicesData(data);
+      })
+      .catch(error => {
+        console.error("There was an error fetching the services data!", error);
+      });
+  }, []);
 
   const handleItemClick = (item) => {
     setSelectedItem(item);
@@ -59,13 +48,13 @@ const BookAppointment = () => {
       case 'Service':
         return <BookServices servicesData={servicesData} onNext={handleNext} />;
       case 'Date & Time':
-        return <DateAndTimePicker onNext={handleNext}/>;
+        return <DateAndTimePicker onNext={handleNext} />;
       case 'Cart Items':
-        return <CartItems onNext={handleNext}/>;
+        return <CartItems onNext={handleNext} />;
       case 'Fill out your details':
-        return <FillOutDetails onNext={handleNext}/>;
+        return <FillOutDetails onNext={handleNext} />;
       case 'Summary':
-        return <BookingSummary/>;
+        return <BookingSummary />;
       default:
         return <BookServices servicesData={servicesData} onNext={handleNext} />;
     }

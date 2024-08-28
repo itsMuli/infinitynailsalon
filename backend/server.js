@@ -4,6 +4,8 @@ import dotenv from 'dotenv';
 import morgan from "morgan";
 import connectDB from "./config/db.js";
 import authroutes from './Routes/authroute.js';
+import serviceRoutes from './Routes/serviceRoutes.js';
+import categoryRoutes from './Routes/categoryRoutes.js'
 import cors from'cors';
 
 
@@ -18,9 +20,11 @@ app.use(express.json());
 app.use(morgan('dev'));
 
 app.use("/api/v1/", authroutes)
+app.use('/api', serviceRoutes)
+app.use('/api', categoryRoutes)
 
 app.get('/', (req,res) => {
-    res.send("welcome to mbewa soap")
+    res.send("welcome to InfinityNailSalon")
 })
 
 const PORT =  process.env.PORT || 8080;

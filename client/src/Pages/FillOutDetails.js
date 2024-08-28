@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, TextField, FormControl, Typography, Button, Grid, Card, CardContent, FormControlLabel, Radio, RadioGroup } from '@mui/material';
+import { Box, TextField, FormControl, Typography, Button, Grid, CardContent, FormControlLabel, Radio, RadioGroup } from '@mui/material';
 
 const FillOutDetails = ({ onNext }) => {
   const [formData, setFormData] = useState({
