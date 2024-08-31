@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Box, Grid, CardContent, Typography, Button, List, ListItem, ListItemText, TextField, CardActions } from '@mui/material';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { isMonday, isPast } from 'date-fns';
+import axios from 'axios';
 
 const timeSlots = [
   '09:00 AM - 10:00 AM',
@@ -18,26 +19,53 @@ const timeSlots = [
 const DateAndTimePicker = ({ onNext }) => {
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedTimeSlot, setSelectedTimeSlot] = useState(null);
-    const [disabledSlots, setDisabledSlots] = useState(new Set());
+  const [disabledSlots, setDisabledSlots] = useState(new Set());
+
+  useEffect(() => {
+    const fetchBookedSlots = async () => {
+      if (selectedDate) {
+        try {
+          const response = await axios.get(`http://localhost:8080/api/appointments/slots/${selectedDate.toLocaleDateString('en-CA')}`);
+          
+          const bookedSlots = response.data.bookedSlots;
+          setDisabledSlots(new Set(bookedSlots));
+        } catch (error) {
+          console.error('Error fetching booked slots:', error);
+        }
+      }
+    };
+    fetchBookedSlots();
+  }, [selectedDate]);
 
   const handleTimeSlotClick = (slot) => {
     if (!disabledSlots.has(slot)) {
       setSelectedTimeSlot(slot);
-      setDisabledSlots(prev => new Set([...prev, slot]));
     }
   };
 
-  const handleNextClick = () => {
-    console.log('Selected Date:', selectedDate);
-    console.log('Selected Time Slot:', selectedTimeSlot);
+  const handleNextClick = async () => {
     if (selectedDate && selectedTimeSlot) {
-      if (onNext){
-        onNext();
+      try {
+        const formattedDate = selectedDate.toLocaleDateString('en-CA'); 
+  
+        const response = await axios.post('http://localhost:8080/api/appointments', {
+          date: formattedDate,
+          timeSlot: selectedTimeSlot,
+        });
+  
+        console.log('Appointment saved:', response.data);
+  
+        if (onNext) {
+          onNext(); // Proceed to the next step
+        }
+      } catch (error) {
+        console.error('Error saving appointment:', error);
       }
     } else {
       console.log('Please select both date and time slot.');
     }
   };
+    
 
   return (
     <Box>
@@ -50,7 +78,8 @@ const DateAndTimePicker = ({ onNext }) => {
                 value={selectedDate}
                 onChange={(newDate) => setSelectedDate(newDate)}
                 renderInput={(params) => <TextField fullWidth {...params} />}
-                shouldDisableDate={(date) => isMonday(date) || isPast(date)}
+                shouldDisableDate={(date) => isMonday(date) || date < new Date()}
+
               />
             </LocalizationProvider>
           </Grid>
@@ -64,6 +93,7 @@ const DateAndTimePicker = ({ onNext }) => {
                   button
                   key={slot}
                   onClick={() => handleTimeSlotClick(slot)}
+                  disabled={disabledSlots.has(slot)}
                   sx={{
                     backgroundColor: selectedTimeSlot === slot ? 'rgba(224, 103, 88, 0.1)' : 'inherit',
                     border: selectedTimeSlot === slot ? '2px solid #e06758' : '1px solid rgba(0, 0, 0, 0.1)',
@@ -78,17 +108,17 @@ const DateAndTimePicker = ({ onNext }) => {
           </Grid>
         </Grid>
       </CardContent>
-    <CardActions sx={{ display: 'flex', justifyContent: 'flex-end', padding: '16px' }}>
-    <Button
-      variant="contained"
-      sx={{ backgroundColor: '#e06758', '&:hover': { backgroundColor: '#e06758' } }}
-      onClick={handleNextClick}
-      disabled={!selectedDate || !selectedTimeSlot}
-    >
-      Next
-    </Button>
-    </CardActions>
-  </Box>
+      <CardActions sx={{ display: 'flex', justifyContent: 'flex-end', padding: '16px' }}>
+        <Button
+          variant="contained"
+          sx={{ backgroundColor: '#e06758', '&:hover': { backgroundColor: '#e06758' } }}
+          onClick={handleNextClick}
+          disabled={!selectedDate || !selectedTimeSlot}
+        >
+          Next
+        </Button>
+      </CardActions>
+    </Box>
   );
 };
 
